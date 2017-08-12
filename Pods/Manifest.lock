@@ -1,15 +1,33 @@
 PODS:
-  - Alamofire (4.4.0)
+  - Alamofire (4.5.0)
+  - KeychainAccess (3.0.2)
+  - ReachabilitySwift (3)
+  - SCLAlertView (0.7.0)
+  - Starscream (2.0.4)
+  - Stripe (11.2.0)
+  - SwiftPhoenixClient (0.6.0):
+    - Starscream (~> 2.0.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - Alamofire (~> 4.3)
+  - KeychainAccess
+  - ReachabilitySwift (~> 3)
+  - SCLAlertView
+  - Stripe
+  - SwiftPhoenixClient
   - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  KeychainAccess: a986406022dfc7c634c691ad3bec670cc6a32002
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
+  SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
+  Starscream: df5974ee928b157c8eda8af8de7c620276b7dfcc
+  Stripe: 898f83a95d72180c6eb4acd65b2ae6158fc6a8bd
+  SwiftPhoenixClient: b50748ec36d28719eaf69c1e13ae612df6b185a0
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 422df5fc1c8f42be327e654b704935579af7a043
+PODFILE CHECKSUM: 2d25a8a7d80340a4b83088e2ad7d8a06fffd6ead
 
 COCOAPODS: 1.2.0

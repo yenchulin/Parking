@@ -1,19 +1,277 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0Ys-Ii-9lc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Log In-->
+        <scene sceneID="8b1-Th-OYy">
+            <objects>
+                <viewController id="mVx-Fg-OHg" customClass="LoginViewController" customModule="Parking" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="udD-vb-nBF"/>
+                        <viewControllerLayoutGuide type="bottom" id="2a1-I0-BB4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CCx-XD-GJf">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xxi-6H-aWR">
+                                <rect key="frame" x="100" y="159" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fkc-NE-ild">
+                                <rect key="frame" x="100" y="197" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRZ-pm-nCI">
+                                <rect key="frame" x="60" y="313" width="112" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.85490196078431369" green="0.18431372549019609" blue="0.086274509803921567" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="使用微信登入">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="useWechatLogIn:" destination="mVx-Fg-OHg" eventType="touchUpInside" id="lG3-vj-hhx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FO3-H0-CCC">
+                                <rect key="frame" x="202" y="313" width="112" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Log In">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="login:" destination="mVx-Fg-OHg" eventType="touchUpInside" id="AcX-wj-YNn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kBl-hA-19B">
+                                <rect key="frame" x="115" y="537" width="144" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Not A Member?">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="j7G-69-ITE" kind="show" id="dtC-1F-rQa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="0ce-aY-4xc" appends="YES" id="Foa-Wq-y4O"/>
+                        </connections>
+                    </view>
+                    <navigationItem key="navigationItem" title="Log In" id="B4l-32-Lfw"/>
+                    <connections>
+                        <outlet property="loginBttn" destination="FO3-H0-CCC" id="1qe-d1-IO0"/>
+                        <outlet property="passwordTextField" destination="Fkc-NE-ild" id="M84-1M-bXK"/>
+                        <outlet property="phoneNumTextField" destination="Xxi-6H-aWR" id="2ou-dc-1bh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EkG-fh-vD5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="0ce-aY-4xc">
+                    <connections>
+                        <action selector="textFieldResignFirstResponder:" destination="mVx-Fg-OHg" id="08G-ts-q40"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-2138.4000000000001" y="35.532233883058474"/>
+        </scene>
+        <!--Sign Up-->
+        <scene sceneID="hBP-Mb-ryQ">
+            <objects>
+                <viewController id="j7G-69-ITE" customClass="SignUpViewController" customModule="Parking" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WKQ-Kz-fvM"/>
+                        <viewControllerLayoutGuide type="bottom" id="gtC-Fx-Ond"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xX9-VQ-2G4">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pax-dx-Wbm">
+                                <rect key="frame" x="100" y="126" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jFL-xz-bzz">
+                                <rect key="frame" x="131" y="314" width="112" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.85490196078431369" green="0.18431372549019609" blue="0.086274509803921567" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Next →">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="oTw-fy-lQE" kind="show" identifier="signUpSegue" id="3DU-2p-zey"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Vechicle ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sgo-RI-VsJ">
+                                <rect key="frame" x="100" y="164" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7tX-Zl-hbN">
+                                <rect key="frame" x="100" y="202" width="175" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="2Dv-2X-Kpw" appends="YES" id="Y4K-3a-1hF"/>
+                        </connections>
+                    </view>
+                    <navigationItem key="navigationItem" title="Sign Up" id="NhC-Nw-Ku6">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="zXH-dh-ZkD"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="nextStepBttn" destination="jFL-xz-bzz" id="Swl-iL-82k"/>
+                        <outlet property="passwordTextField" destination="7tX-Zl-hbN" id="5aZ-xt-fyi"/>
+                        <outlet property="phoneNumTextField" destination="pax-dx-Wbm" id="MZz-YP-pfz"/>
+                        <outlet property="vechicleIDTextField" destination="Sgo-RI-VsJ" id="RHN-Ky-uUo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c0U-NT-ut8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="2Dv-2X-Kpw">
+                    <connections>
+                        <action selector="textFieldResignFirstResponder:" destination="j7G-69-ITE" id="Acy-Cv-68v"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-1207.2" y="35.532233883058474"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="V4N-fz-hVf">
+            <objects>
+                <navigationController storyboardIdentifier="logInNavigationController" id="Kb0-Qa-pQg" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="Sdq-TK-O17">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="mVx-Fg-OHg" kind="relationship" relationship="rootViewController" id="9B9-bd-It4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xHT-vx-JUN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3006" y="36"/>
+        </scene>
+        <!--Enter Your Credit Card-->
+        <scene sceneID="fho-qR-HgD">
+            <objects>
+                <viewController id="oTw-fy-lQE" customClass="CreditCardViewController" customModule="Parking" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Zb0-qg-2d9"/>
+                        <viewControllerLayoutGuide type="bottom" id="Riy-aV-p5w"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EhQ-cw-Hgc">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Credit Card Number..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EN4-bk-tWg">
+                                <rect key="frame" x="16" y="93" width="343" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="MM" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hYK-Y6-45B">
+                                <rect key="frame" x="16" y="147" width="82" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CVC" textAlignment="natural" minimumFontSize="17" background="stp_card_cvc.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yt8-zn-jAP">
+                                <rect key="frame" x="213" y="147" width="146" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P5b-Ia-Cxg">
+                                <rect key="frame" x="16" y="199" width="129" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pYa-jl-Nl8">
+                                <rect key="frame" x="153" y="199" width="206" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="YYYY" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MsQ-0i-TkO">
+                                <rect key="frame" x="106" y="147" width="99" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EtR-Gj-c3J">
+                                <rect key="frame" x="130" y="313" width="115" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.85490196078431369" green="0.18431372549019609" blue="0.086274509803921567" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="finishEnteringCreditCardInfo:" destination="oTw-fy-lQE" eventType="touchUpInside" id="eVh-qK-o3D"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="cff-Mf-86L" appends="YES" id="v95-rQ-7Ud"/>
+                        </connections>
+                    </view>
+                    <navigationItem key="navigationItem" title="Enter Your Credit Card" id="lkh-or-GIQ"/>
+                    <connections>
+                        <outlet property="cardNumberTextField" destination="EN4-bk-tWg" id="EEn-pj-jiq"/>
+                        <outlet property="cvcTextField" destination="Yt8-zn-jAP" id="nFk-ve-kv7"/>
+                        <outlet property="expiredMonthTextField" destination="hYK-Y6-45B" id="eEq-eJ-Hyt"/>
+                        <outlet property="expiredYearTextField" destination="MsQ-0i-TkO" id="LHA-Fv-ddr"/>
+                        <outlet property="firstNameTextField" destination="pYa-jl-Nl8" id="36g-tI-Hrf"/>
+                        <outlet property="lastNameTextField" destination="P5b-Ia-Cxg" id="w5o-pW-wTz"/>
+                        <outlet property="signUpBttn" destination="EtR-Gj-c3J" id="dsl-tm-SFd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="efA-hc-zde" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="cff-Mf-86L">
+                    <connections>
+                        <action selector="textFieldResignFirstResponder:" destination="oTw-fy-lQE" id="Hzc-DG-2N7"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-297" y="36"/>
+        </scene>
         <!--Parking Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ParkingMapViewController" customModule="Parking" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="parkingMapViewController" id="BYZ-38-t0r" customClass="ParkingMapViewController" customModule="Parking" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -25,10 +283,28 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pwR-Jy-ZYL">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
+                            <button opaque="NO" alpha="0.89000000000000001" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7wT-ix-eF0">
+                                <rect key="frame" x="313" y="553" width="46" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="logout"/>
+                                <connections>
+                                    <action selector="logout:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nsQ-yW-A51"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.89000000000000001" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Am-bI-pjt">
+                                <rect key="frame" x="313" y="499" width="46" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="user location"/>
+                                <connections>
+                                    <action selector="getUserLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xVK-hp-oh4"/>
+                                </connections>
+                            </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06K-L6-oRL">
-                                <rect key="frame" x="0.0" y="455" width="375" height="212"/>
+                                <rect key="frame" x="0.0" y="473" width="375" height="194"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="212" id="Y66-p8-Gpk"/>
+                                    <constraint firstAttribute="height" constant="194" id="Y66-p8-Gpk"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="eSq-Ng-zZs" kind="embed" id="iGN-wd-sQm"/>
@@ -47,139 +323,112 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="logoutBttn" destination="7wT-ix-eF0" id="lTT-G2-Nys"/>
                         <outlet property="mapView" destination="pwR-Jy-ZYL" id="chd-26-iJj"/>
                         <outlet property="parkingSpaceContainerView" destination="06K-L6-oRL" id="LOw-v0-vrk"/>
+                        <outlet property="userLocationBttn" destination="9Am-bI-pjt" id="hBL-GE-gBk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-367.19999999999999" y="112.89355322338831"/>
+            <point key="canvasLocation" x="-3007.1999999999998" y="762.36881559220399"/>
         </scene>
         <!--Parking Space Container View Controller-->
         <scene sceneID="Rjx-2f-0yY">
             <objects>
                 <viewController id="eSq-Ng-zZs" customClass="ParkingSpaceContainerViewController" customModule="Parking" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EVf-B0-2Rf"/>
+                        <viewControllerLayoutGuide type="bottom" id="WAO-iW-44n"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dXy-Dm-o9q">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="212"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hA-wM-xhk">
-                                <rect key="frame" x="142.5" y="166" width="90" height="30"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.52941176469999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="1Ur-JW-l8U"/>
-                                    <constraint firstAttribute="height" constant="30" id="Aip-46-Les"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hA-wM-xhk">
+                                <rect key="frame" x="142.5" y="144" width="90" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.85490196078431369" green="0.18431372549019609" blue="0.086274509803921567" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="我要停車">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="wantParking:" destination="eSq-Ng-zZs" eventType="touchUpInside" id="9l0-LC-A40"/>
+                                    <action selector="wantReserveParking:" destination="eSq-Ng-zZs" eventType="touchUpInside" id="MRR-Ry-2E8"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeA-Kz-KFn">
-                                <rect key="frame" x="16" y="46" width="343" height="48"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmd-n1-cro">
-                                        <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="fkZ-Ga-CF7"/>
-                                            <constraint firstAttribute="height" constant="48" id="z6V-V4-MOq"/>
-                                        </constraints>
-                                        <string key="text">停車格
-位置</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z9q-la-uLE">
-                                        <rect key="frame" x="48" y="0.0" width="295" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="AMa-hc-4xf"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lFM-Fh-P1B">
-                                <rect key="frame" x="269" y="8" width="90" height="30"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xr7-Lc-bem">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="5kC-K8-bXy"/>
-                                            <constraint firstAttribute="height" constant="30" id="QAZ-OV-cb4"/>
-                                        </constraints>
-                                        <string key="text">停車格
-號碼</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10028" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KKZ-ZF-iwK">
-                                        <rect key="frame" x="40" y="0.0" width="50" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="Fzk-7B-aaJ"/>
-                                            <constraint firstAttribute="height" constant="30" id="tx7-wS-qTu"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="jQj-oV-pyI">
-                                <rect key="frame" x="16" y="102" width="343" height="48"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KkV-14-3xQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="32" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="OU5-47-sti"/>
-                                            <constraint firstAttribute="width" constant="32" id="d24-i3-JBU"/>
-                                        </constraints>
-                                        <string key="text">收費
-方式</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rVE-Et-Lit">
-                                        <rect key="frame" x="48" y="0.0" width="295" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="1d8-H3-ps9"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PARP-2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z9q-la-uLE">
+                                <rect key="frame" x="44" y="58" width="287" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="收費方式" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xr7-Lc-bem">
+                                <rect key="frame" x="225" y="20" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="/ 3600 * 20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KKZ-ZF-iwK">
+                                <rect key="frame" x="254" y="20" width="77" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="104台灣台北市中山區長安東路一段19號-29號" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rVE-Et-Lit">
+                                <rect key="frame" x="44" y="89" width="287" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="lFM-Fh-P1B" secondAttribute="trailing" constant="16" id="60Z-Yb-FVk"/>
-                            <constraint firstAttribute="trailing" secondItem="aeA-Kz-KFn" secondAttribute="trailing" constant="16" id="6ZP-Xk-0gV"/>
-                            <constraint firstItem="jQj-oV-pyI" firstAttribute="top" secondItem="aeA-Kz-KFn" secondAttribute="bottom" constant="8" id="8cm-28-Uz4"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="7hA-wM-xhk" secondAttribute="bottom" constant="16" id="ReW-h1-JeL"/>
-                            <constraint firstItem="jQj-oV-pyI" firstAttribute="leading" secondItem="dXy-Dm-o9q" secondAttribute="leading" constant="16" id="WtN-21-RIa"/>
-                            <constraint firstAttribute="trailing" secondItem="jQj-oV-pyI" secondAttribute="trailing" constant="16" id="ZfD-sa-IK9"/>
-                            <constraint firstItem="7hA-wM-xhk" firstAttribute="centerX" secondItem="dXy-Dm-o9q" secondAttribute="centerX" id="fz4-S7-4li"/>
-                            <constraint firstItem="aeA-Kz-KFn" firstAttribute="leading" secondItem="dXy-Dm-o9q" secondAttribute="leading" constant="16" id="hQs-Vk-B9a"/>
-                            <constraint firstItem="aeA-Kz-KFn" firstAttribute="top" secondItem="lFM-Fh-P1B" secondAttribute="bottom" constant="8" id="r62-Wq-MDd"/>
-                            <constraint firstItem="lFM-Fh-P1B" firstAttribute="top" secondItem="dXy-Dm-o9q" secondAttribute="top" constant="8" id="ulj-xL-9mu"/>
-                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
-                        <outlet property="parkingSpaceAddrLabel" destination="Z9q-la-uLE" id="xgi-9p-Nak"/>
-                        <outlet property="parkingSpaceChargingLabel" destination="rVE-Et-Lit" id="u0Z-ye-yz9"/>
-                        <outlet property="parkingSpaceIDLabel" destination="KKZ-ZF-iwK" id="Ss4-Vc-n1a"/>
+                        <outlet property="parkingSpaceAddrLabel" destination="rVE-Et-Lit" id="GLe-6d-gzB"/>
+                        <outlet property="parkingSpaceNameLabel" destination="Z9q-la-uLE" id="iQS-aY-axt"/>
+                        <outlet property="parkingSpacePriceLabel" destination="KKZ-ZF-iwK" id="zyU-DW-R4l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EDv-fU-llv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="512.79999999999995" y="57.571214392803604"/>
+            <point key="canvasLocation" x="-2138.4000000000001" y="761.91904047976016"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="RLR-Na-Ywb">
+            <objects>
+                <viewController id="0Ys-Ii-9lc" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0sJ-HX-KQc"/>
+                        <viewControllerLayoutGuide type="bottom" id="96e-sz-tnn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tcY-Ec-NMB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="launch screen logo" translatesAutoresizingMaskIntoConstraints="NO" id="CKx-hg-P9v">
+                                <rect key="frame" x="110" y="305" width="154" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nDl-E9-VqH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3887" y="36"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launch screen logo" width="358" height="120"/>
+        <image name="logout" width="32" height="32"/>
+        <image name="stp_card_cvc.png" width="32" height="21"/>
+        <image name="user location" width="32" height="32"/>
+    </resources>
 </document>

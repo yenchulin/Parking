@@ -9,7 +9,42 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>KeychainAccess.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Parking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>ReachabilitySwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SCLAlertView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Starscream.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Stripe-Stripe.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Stripe.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftPhoenixClient.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,7 +57,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>323CC648ED871527C82DA1B734B352EB</key>
+		<key>2D1DFAB844C88B8C92B958E5F9886334</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4E3B42A1E02EBDB0E73EFE83EE9ACA01</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>775384D7F39507F4E43D84C9E5D33D96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -32,7 +77,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>97E867985F4FC6F0EE1253410AA928E1</key>
+		<key>8905DB6521F8FDC34752B69DEE3FDEB7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E52A5EBEF642B50B0810D96431EF25C5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E8AA1035CDBD22DA321E9CD02D937DB6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F5CAB0D31CBE7696AE6187EB370475C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FF4246BE9D238D32E0284A27AEC740C1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FFD5765C2F23925D7DCB50996F80B830</key>
 		<dict>
 			<key>primary</key>
 			<true/>

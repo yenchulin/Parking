@@ -11,15 +11,17 @@ import MapKit
 
 class ParkingSpaceAnnotation: MKPointAnnotation {
     var id: Int
-    var address: String
-    var charging: String // 計費方式
-    var isAvailable: Bool
+    var name: String
+    var price_set: String // 計費方式
+    var status: ParkingSpaceStatus
     
     
-    init(id: Int, address: String, charging: String, isAvailable: Bool) {
+    init(id: Int, name: String, price_set: String, status: ParkingSpaceStatus) {
         self.id = id
-        self.address = address
-        self.charging = charging
-        self.isAvailable = isAvailable
+        self.name = name
+        self.price_set = price_set
+        self.status = status
+    
     }
+    
 }

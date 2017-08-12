@@ -8,8 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		BDE9AFE067E31F7C57197335 /* Pods_Parking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 333CA39496FA7B34B8767E16 /* Pods_Parking.framework */; };
+		C4170DDE1F3581B5002507AF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4170DDD1F3581B5002507AF /* LoginViewController.swift */; };
 		C41AF2DF1EF50E1C00EFE1F6 /* ParkingSpaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41AF2DE1EF50E1C00EFE1F6 /* ParkingSpaceAnnotation.swift */; };
 		C4414AF51EF570C300BF7244 /* ParkingSpaceContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4414AF41EF570C300BF7244 /* ParkingSpaceContainerViewController.swift */; };
+		C4A0F3B51F32AF0F00A7EE7A /* CreditCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A0F3B41F32AF0F00A7EE7A /* CreditCardViewController.swift */; };
+		C4A0F3B71F3318AE00A7EE7A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A0F3B61F3318AE00A7EE7A /* SignUpViewController.swift */; };
+		C4A0F3BA1F3355E000A7EE7A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A0F3B91F3355E000A7EE7A /* User.swift */; };
+		C4CA79891F07655900844DBF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4CA79881F07655900844DBF /* GoogleService-Info.plist */; };
 		C4D0FADE1EED75C80001EF31 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D0FADD1EED75C80001EF31 /* AppDelegate.swift */; };
 		C4D0FAE01EED75C80001EF31 /* ParkingMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D0FADF1EED75C80001EF31 /* ParkingMapViewController.swift */; };
 		C4D0FAE31EED75C80001EF31 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4D0FAE11EED75C80001EF31 /* Main.storyboard */; };
@@ -22,8 +27,14 @@
 		0559080F0C7EC53CA46F5FC9 /* Pods-Parking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parking.release.xcconfig"; path = "Pods/Target Support Files/Pods-Parking/Pods-Parking.release.xcconfig"; sourceTree = "<group>"; };
 		333CA39496FA7B34B8767E16 /* Pods_Parking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Parking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FBF0449994B131A805237C3 /* Pods-Parking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Parking/Pods-Parking.debug.xcconfig"; sourceTree = "<group>"; };
+		C4170DDD1F3581B5002507AF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C41AF2DE1EF50E1C00EFE1F6 /* ParkingSpaceAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingSpaceAnnotation.swift; sourceTree = "<group>"; };
 		C4414AF41EF570C300BF7244 /* ParkingSpaceContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParkingSpaceContainerViewController.swift; sourceTree = "<group>"; };
+		C4A0F3B41F32AF0F00A7EE7A /* CreditCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditCardViewController.swift; sourceTree = "<group>"; };
+		C4A0F3B61F3318AE00A7EE7A /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		C4A0F3B91F3355E000A7EE7A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C4B5FF071F36F2AC006C6458 /* Parking.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Parking.entitlements; sourceTree = "<group>"; };
+		C4CA79881F07655900844DBF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C4D0FADA1EED75C80001EF31 /* Parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D0FADD1EED75C80001EF31 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4D0FADF1EED75C80001EF31 /* ParkingMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkingMapViewController.swift; sourceTree = "<group>"; };
@@ -63,12 +74,20 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		C4414AF31EF5467B00BF7244 /* Annotation */ = {
+		C4414AF31EF5467B00BF7244 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
 				C41AF2DE1EF50E1C00EFE1F6 /* ParkingSpaceAnnotation.swift */,
 			);
-			name = Annotation;
+			name = Annotations;
+			sourceTree = "<group>";
+		};
+		C4A0F3B81F3355AE00A7EE7A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C4A0F3B91F3355E000A7EE7A /* User.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		C4D0FAD11EED75C80001EF31 = {
@@ -93,11 +112,17 @@
 		C4D0FADC1EED75C80001EF31 /* Parking */ = {
 			isa = PBXGroup;
 			children = (
-				C4414AF31EF5467B00BF7244 /* Annotation */,
+				C4B5FF071F36F2AC006C6458 /* Parking.entitlements */,
+				C4A0F3B81F3355AE00A7EE7A /* Models */,
+				C4414AF31EF5467B00BF7244 /* Annotations */,
 				C4D0FADD1EED75C80001EF31 /* AppDelegate.swift */,
+				C4170DDD1F3581B5002507AF /* LoginViewController.swift */,
+				C4A0F3B61F3318AE00A7EE7A /* SignUpViewController.swift */,
+				C4A0F3B41F32AF0F00A7EE7A /* CreditCardViewController.swift */,
 				C4D0FADF1EED75C80001EF31 /* ParkingMapViewController.swift */,
 				C4414AF41EF570C300BF7244 /* ParkingSpaceContainerViewController.swift */,
 				C4D0FAE11EED75C80001EF31 /* Main.storyboard */,
+				C4CA79881F07655900844DBF /* GoogleService-Info.plist */,
 				C4D0FAE41EED75C80001EF31 /* Assets.xcassets */,
 				C4D0FAE61EED75C80001EF31 /* LaunchScreen.storyboard */,
 				C4D0FAE91EED75C80001EF31 /* Info.plist */,
@@ -140,8 +165,13 @@
 				TargetAttributes = {
 					C4D0FAD91EED75C80001EF31 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 4FAWUFZ5VL;
+						DevelopmentTeam = 88974F63K2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -170,6 +200,7 @@
 			files = (
 				C4D0FAE81EED75C80001EF31 /* LaunchScreen.storyboard in Resources */,
 				C4D0FAE51EED75C80001EF31 /* Assets.xcassets in Resources */,
+				C4CA79891F07655900844DBF /* GoogleService-Info.plist in Resources */,
 				C4D0FAF01EEE6E910001EF31 /* Podfile in Resources */,
 				C4D0FAE31EED75C80001EF31 /* Main.storyboard in Resources */,
 			);
@@ -230,10 +261,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4A0F3B71F3318AE00A7EE7A /* SignUpViewController.swift in Sources */,
 				C4D0FAE01EED75C80001EF31 /* ParkingMapViewController.swift in Sources */,
 				C41AF2DF1EF50E1C00EFE1F6 /* ParkingSpaceAnnotation.swift in Sources */,
 				C4414AF51EF570C300BF7244 /* ParkingSpaceContainerViewController.swift in Sources */,
+				C4170DDE1F3581B5002507AF /* LoginViewController.swift in Sources */,
 				C4D0FADE1EED75C80001EF31 /* AppDelegate.swift in Sources */,
+				C4A0F3B51F32AF0F00A7EE7A /* CreditCardViewController.swift in Sources */,
+				C4A0F3BA1F3355E000A7EE7A /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +394,7 @@
 			baseConfigurationReference = 3FBF0449994B131A805237C3 /* Pods-Parking.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4FAWUFZ5VL;
+				DEVELOPMENT_TEAM = 88974F63K2;
 				INFOPLIST_FILE = Parking/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yenchulin.Parking;
@@ -373,7 +408,7 @@
 			baseConfigurationReference = 0559080F0C7EC53CA46F5FC9 /* Pods-Parking.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 4FAWUFZ5VL;
+				DEVELOPMENT_TEAM = 88974F63K2;
 				INFOPLIST_FILE = Parking/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yenchulin.Parking;

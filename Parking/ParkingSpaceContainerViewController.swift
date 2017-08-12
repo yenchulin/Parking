@@ -8,35 +8,41 @@
 
 import UIKit
 import MapKit
+import Alamofire
+import KeychainAccess
 
 class ParkingSpaceContainerViewController: UIViewController {
 
     // MARK: - Outlets
-    @IBOutlet weak var parkingSpaceIDLabel: UILabel!
+    @IBOutlet weak var parkingSpaceNameLabel: UILabel!
     @IBOutlet weak var parkingSpaceAddrLabel: UILabel!
-    @IBOutlet weak var parkingSpaceChargingLabel: UILabel!
+    @IBOutlet weak var parkingSpacePriceLabel: UILabel!
     
     
     // MARK: - Pin Properties
+    var mapViewFromPKMapVC: MKMapView!
     var parkingSpacePin: ParkingSpaceAnnotation? = nil {
         didSet {
             if self.parkingSpacePin != nil {
-                self.parkingSpaceIDLabel.text = String(self.parkingSpacePin!.id)
-                self.parkingSpaceAddrLabel.text = self.parkingSpacePin!.address
-                self.parkingSpaceChargingLabel.text = self.parkingSpacePin!.charging
+                self.parkingSpaceNameLabel.text = String(self.parkingSpacePin!.name)
+                self.parkingSpacePriceLabel.text = self.parkingSpacePin!.price_set
+                self.setParkingSpaceAddrLabel(with: self.parkingSpacePin!)
+                
             } else {
-                fatalError("Seting parkingSpacePin Error: parkingSpacePin is nil")
+                fatalError("Setting parkingSpacePin Error: parkingSpacePin is nil")
             }
         }
     }
     
-    // MARK: - Properties
-    var mapViewFromPKMapVC: MKMapView!
+    
+    // MARK: - Server Properties
+    let reserveParkingURL = "http://myptt.masato25.com:8077/api/v1/reservation_parking"
+    let startParkingURL = ""
+    
     
     
     // MARK: - Timer Properties
-    var parkingTimer = Timer()
-    
+    var reserveParkingTimer = Timer()
     
     
     // MARK: - View Functions
@@ -46,41 +52,151 @@ class ParkingSpaceContainerViewController: UIViewController {
     
     
     
+    // MARK: - Helper Functions
+    private func setParkingSpaceAddrLabel (with pin: ParkingSpaceAnnotation) {
+        let location = CLLocation(latitude: pin.coordinate.latitude, longitude: pin.coordinate.longitude)
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarkArray, error) in
+            
+            guard let address = placemarkArray?.first?.addressDictionary?["FormattedAddressLines"] as? [String] else {
+                print("Pin \(pin.id) cannot transfer \(pin.coordinate) to address")
+                return
+            }
+            self.parkingSpaceAddrLabel.text = address.joined(separator: ",")
+        })
+    }
+    
+    
+    private func startParking(_ pSpaceID: Int) {
+        let parameters: Parameters = ["id": pSpaceID]
+        
+        Alamofire.request(self.startParkingURL, method: .post, parameters: parameters).validate().responseString(completionHandler: { response in
+            
+            switch response.result {
+            case .success(let value):
+                print(value)
+                
+            case .failure(let error):
+                print("Start parking fails: \(error)")
+            }
+        })
+    }
+    
+    
+    private func cancelReserveParking(_ pSpaceID: Int) {
+        // retrieve user data from storage(keychain)
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier ?? "")
+        let sessionToken = keychain["sessionToken"] ?? ""
+        let userPhoneNum = keychain["userPhoneNumber"] ?? ""
+        
+        let parameters: Parameters = ["parking_id": pSpaceID, "rs": false]
+        let headers: HTTPHeaders = ["authorization": "\(userPhoneNum) \(sessionToken)"]
+        
+        Alamofire.request(self.reserveParkingURL, method: .get, parameters: parameters, headers: headers).validate().responseString(completionHandler: { response in
+            
+            switch response.result {
+            case .success(let value):
+                print(value)
+                
+            case .failure(let error):
+                print("Cancel reserve parking fails: \(error)")
+            }
+        })
+    }
+    
+    
+    
     
     // MARK: - Actions
-    @IBAction func wantParking(_ sender: UIButton) {
+    @IBAction func wantReserveParking(_ sender: UIButton) {
         guard let myParkingSpacePin = self.parkingSpacePin else {
-            fatalError("Press Button Error: self.parkingSpacePin is nil")
+            fatalError("Press wantParking_Button Error: self.parkingSpacePin is nil")
         }
+        
+        // 1. Connect Server
+        // retrieve user data from storage(keychain)
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier ?? "")
+        let sessionToken = keychain["sessionToken"] ?? ""
+        let userPhoneNum = keychain["userPhoneNumber"] ?? ""
+        
+        let parameters: Parameters = ["parking_id": myParkingSpacePin.id, "rs": true]
+        let headers: HTTPHeaders = ["authorization": "\(userPhoneNum) \(sessionToken)"]
+        
+        Alamofire.request(self.reserveParkingURL, method: .get, parameters: parameters, headers: headers).validate().responseString(completionHandler: { response in
+            
+            switch response.result {
+            case .success(let value):
+                print(value)
+                
+            case .failure(let error):
+                print("Want reserve parking fails: \(error)")
+            }
+        })
+        
+        
+        // 2. Remove pin
         self.mapViewFromPKMapVC.removeAnnotation(myParkingSpacePin)
         
         
-        let finishParkingAlert = UIAlertController(title: "已幫您保留車位", message: "請在5分鐘內完成停車，否則將取消保留", preferredStyle: .alert)
+        // 3. Alert
+        let reserveParkingAlert = UIAlertController(title: "已幫您保留車位", message: "請在5分鐘內完成停車，否則將取消保留", preferredStyle: .alert)
         
         
-        finishParkingAlert.addAction(UIAlertAction(title: "停好了", style: .default, handler: { action in
-            self.parkingTimer.invalidate()
+        // 3.1 Action1
+        reserveParkingAlert.addAction(UIAlertAction(title: "停好了", style: .default, handler: { action in
+            // Connect server
+            self.startParking(myParkingSpacePin.id)
+            
+            // Stop Timing
+            self.reserveParkingTimer.fire()
+            
             print("Pressed \(action.title!) -> alert dismissed")
         }))
         
         
-        finishParkingAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { action in
-            self.parkingTimer.invalidate()
+        // 3.2 Action2
+        reserveParkingAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { action in
+            // Connect Server
+            self.cancelReserveParking(myParkingSpacePin.id)
+            
+            // Readd Pin
             self.mapViewFromPKMapVC.addAnnotation(myParkingSpacePin)
+            
+            // Stop Timing
+            self.reserveParkingTimer.fire()
+            
             print("Pressed \(action.title!) -> alert dismissed")
         }))
         
-        self.present(finishParkingAlert, animated: true, completion: {
-            print("presented finishParkingAlert")
-            self.parkingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { timer in
+        self.present(reserveParkingAlert, animated: true, completion: {
+            print("presented reserveParkingAlert")
+        })
+        
+        
+        // 4. Timing
+        self.reserveParkingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { timer in
+            
+            // 3.3 No Action
+            self.dismiss(animated: true, completion: {
+                // Connect Server
+                self.cancelReserveParking(myParkingSpacePin.id)
                 
-                self.dismiss(animated: true, completion: {
-                    self.mapViewFromPKMapVC.addAnnotation(myParkingSpacePin)
-                    print("dismissed alert")
-                })
+                // Readd Pin
+                self.mapViewFromPKMapVC.addAnnotation(myParkingSpacePin)
+                
+                print("dismissed alert")
             })
         })
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     // MARK: - Not Used
