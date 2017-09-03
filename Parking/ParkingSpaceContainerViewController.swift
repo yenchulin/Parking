@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import Alamofire
+import SwiftyJSON
 import KeychainAccess
 
 class ParkingSpaceContainerViewController: UIViewController {
@@ -19,13 +20,15 @@ class ParkingSpaceContainerViewController: UIViewController {
     @IBOutlet weak var parkingSpacePriceLabel: UILabel!
     
     
+    
+    
     // MARK: - Pin Properties
     var mapViewFromPKMapVC: MKMapView!
     var parkingSpacePin: ParkingSpaceAnnotation? = nil {
         didSet {
             if self.parkingSpacePin != nil {
-                self.parkingSpaceNameLabel.text = String(self.parkingSpacePin!.name)
-                self.parkingSpacePriceLabel.text = self.parkingSpacePin!.price_set
+                self.parkingSpaceNameLabel.text = String(self.parkingSpacePin!.custom_name)
+                self.parkingSpacePriceLabel.text = "1人民幣 /秒"
                 self.setParkingSpaceAddrLabel(with: self.parkingSpacePin!)
                 
             } else {
@@ -36,13 +39,9 @@ class ParkingSpaceContainerViewController: UIViewController {
     
     
     // MARK: - Server Properties
-    let reserveParkingURL = "http://myptt.masato25.com:8077/api/v1/reservation_parking"
-    let startParkingURL = ""
+    let startParkingURL = "http://myptt.masato25.com:8077/api/v1/user_report_parking"
+   
     
-    
-    
-    // MARK: - Timer Properties
-    var reserveParkingTimer = Timer()
     
     
     // MARK: - View Functions
@@ -68,14 +67,38 @@ class ParkingSpaceContainerViewController: UIViewController {
     }
     
     
-    private func startParking(_ pSpaceID: Int) {
-        let parameters: Parameters = ["id": pSpaceID]
+    private func startParking(at pSpace: ParkingSpaceAnnotation) {
         
-        Alamofire.request(self.startParkingURL, method: .post, parameters: parameters).validate().responseString(completionHandler: { response in
+        // retrieve user data from storage(keychain)
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier ?? "")
+        let sessionToken = keychain["sessionToken"] ?? ""
+        let userPhoneNum = keychain["userPhoneNumber"] ?? ""
+        
+        // Connect Server
+        let parameters: Parameters = ["custom_name": pSpace.custom_name]
+        let headers: HTTPHeaders = ["authorization": "\(userPhoneNum) \(sessionToken)"]
+        
+        Alamofire.request(self.startParkingURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(completionHandler: { response in
             
             switch response.result {
             case .success(let value):
-                print(value)
+                
+                let responseJson = JSON(value)
+                if responseJson["error"].string != nil {
+                    
+                    // Alert: no car on parking space
+                    let noParkingAlert = UIAlertController(title: "您不在此車位上", message: "請將車停好後再進行回報", preferredStyle: .alert)
+                    noParkingAlert.addAction(UIAlertAction(title: "好", style: .default, handler: { action in
+                        noParkingAlert.dismiss(animated: true, completion: nil)
+                    }))
+                    self.present(noParkingAlert, animated: true, completion: nil)
+                    
+                } else {
+                    print("Start parking: \(responseJson["msg"].stringValue)")
+                    
+                    // Remove Pin
+                    self.mapViewFromPKMapVC.removeAnnotation(pSpace)
+                }
                 
             case .failure(let error):
                 print("Start parking fails: \(error)")
@@ -84,110 +107,31 @@ class ParkingSpaceContainerViewController: UIViewController {
     }
     
     
-    private func cancelReserveParking(_ pSpaceID: Int) {
-        // retrieve user data from storage(keychain)
-        let keychain = Keychain(service: Bundle.main.bundleIdentifier ?? "")
-        let sessionToken = keychain["sessionToken"] ?? ""
-        let userPhoneNum = keychain["userPhoneNumber"] ?? ""
-        
-        let parameters: Parameters = ["parking_id": pSpaceID, "rs": false]
-        let headers: HTTPHeaders = ["authorization": "\(userPhoneNum) \(sessionToken)"]
-        
-        Alamofire.request(self.reserveParkingURL, method: .get, parameters: parameters, headers: headers).validate().responseString(completionHandler: { response in
-            
-            switch response.result {
-            case .success(let value):
-                print(value)
-                
-            case .failure(let error):
-                print("Cancel reserve parking fails: \(error)")
-            }
-        })
-    }
-    
     
     
     
     // MARK: - Actions
-    @IBAction func wantReserveParking(_ sender: UIButton) {
+    @IBAction func wantParking(_ sender: UIButton) {
         guard let myParkingSpacePin = self.parkingSpacePin else {
             fatalError("Press wantParking_Button Error: self.parkingSpacePin is nil")
         }
         
-        // 1. Connect Server
-        // retrieve user data from storage(keychain)
-        let keychain = Keychain(service: Bundle.main.bundleIdentifier ?? "")
-        let sessionToken = keychain["sessionToken"] ?? ""
-        let userPhoneNum = keychain["userPhoneNumber"] ?? ""
         
-        let parameters: Parameters = ["parking_id": myParkingSpacePin.id, "rs": true]
-        let headers: HTTPHeaders = ["authorization": "\(userPhoneNum) \(sessionToken)"]
-        
-        Alamofire.request(self.reserveParkingURL, method: .get, parameters: parameters, headers: headers).validate().responseString(completionHandler: { response in
-            
-            switch response.result {
-            case .success(let value):
-                print(value)
-                
-            case .failure(let error):
-                print("Want reserve parking fails: \(error)")
-            }
-        })
+        // 1. Alert
+        let wantParkingAlert = UIAlertController(title: "您確定要停車？", message: "按下確定後，將開始進行計費", preferredStyle: .alert)
         
         
-        // 2. Remove pin
-        self.mapViewFromPKMapVC.removeAnnotation(myParkingSpacePin)
-        
-        
-        // 3. Alert
-        let reserveParkingAlert = UIAlertController(title: "已幫您保留車位", message: "請在5分鐘內完成停車，否則將取消保留", preferredStyle: .alert)
-        
-        
-        // 3.1 Action1
-        reserveParkingAlert.addAction(UIAlertAction(title: "停好了", style: .default, handler: { action in
+        // 1.1 Action1
+        wantParkingAlert.addAction(UIAlertAction(title: "確定", style: .default, handler: { action in
             // Connect server
-            self.startParking(myParkingSpacePin.id)
-            
-            // Stop Timing
-            self.reserveParkingTimer.fire()
-            
-            print("Pressed \(action.title!) -> alert dismissed")
+            self.startParking(at: myParkingSpacePin)
         }))
         
         
-        // 3.2 Action2
-        reserveParkingAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { action in
-            // Connect Server
-            self.cancelReserveParking(myParkingSpacePin.id)
-            
-            // Readd Pin
-            self.mapViewFromPKMapVC.addAnnotation(myParkingSpacePin)
-            
-            // Stop Timing
-            self.reserveParkingTimer.fire()
-            
-            print("Pressed \(action.title!) -> alert dismissed")
-        }))
+        // 1.2 Action2
+        wantParkingAlert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
-        self.present(reserveParkingAlert, animated: true, completion: {
-            print("presented reserveParkingAlert")
-        })
-        
-        
-        // 4. Timing
-        self.reserveParkingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { timer in
-            
-            // 3.3 No Action
-            self.dismiss(animated: true, completion: {
-                // Connect Server
-                self.cancelReserveParking(myParkingSpacePin.id)
-                
-                // Readd Pin
-                self.mapViewFromPKMapVC.addAnnotation(myParkingSpacePin)
-                
-                print("dismissed alert")
-            })
-        })
+        self.present(wantParkingAlert, animated: true, completion: nil)
     }
     
     

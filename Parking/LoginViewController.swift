@@ -77,19 +77,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             switch response.result {
             case .success(let value):
-                print(value)
+                print("login= \(value)")
                 
                 let responseJson = JSON(value)
                 
                 if responseJson["error"].string != nil {
                     // alert: user not found or password is incorrent
                     let accountWrongAlert = UIAlertController(title: "無法登入", message: "您輸入的帳號密碼有誤", preferredStyle: .alert)
-                    accountWrongAlert.addAction(UIAlertAction(title: "好", style: .default, handler: { action in
-                        print("Dismissed \(accountWrongAlert.title!) alert")
-                    }))
-                    self.present(accountWrongAlert, animated: true, completion: {
-                        print("Present \(accountWrongAlert.title!) alert")
-                    })
+                    accountWrongAlert.addAction(UIAlertAction(title: "好", style: .default, handler: nil))
+                    self.present(accountWrongAlert, animated: true, completion: nil)
                 } else {
                     let session = responseJson["session"].dictionaryValue
                     let sessionToken = session["session"]?.stringValue
@@ -143,26 +139,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     
-    // Disable the LogIn button if text field is empty.
+    // Disable the Login button if text field is empty.
     private func updateLoginBttnState() {
         let phoneNumText = self.phoneNumTextField.text ?? ""
         let passwordText = self.passwordTextField.text ?? ""
         self.loginBttn.isEnabled = !phoneNumText.isEmpty && !passwordText.isEmpty
     }
-    
-    
-    
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

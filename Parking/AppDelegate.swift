@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             switch response.result {
             case .success(let value):
-                print(value)
+                print("auto login= \(value)")
                 
                 let responseJson = JSON(value)
                 

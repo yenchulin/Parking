@@ -11,8 +11,8 @@ import MapKit
 import CoreLocation
 import Alamofire
 import SwiftyJSON
-import SwiftPhoenixClient
 import SCLAlertView
+import SwiftPhoenixClient
 import KeychainAccess
 
 
@@ -28,21 +28,22 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
     @IBOutlet weak var parkingSpaceContainerView: UIView!
     @IBOutlet weak var userLocationBttn: UIButton!
     @IBOutlet weak var logoutBttn: UIButton!
+    @IBOutlet weak var refreshPinBttn: UIButton!
+    
     
     
     // MARK: - Map Properties
     let getParkingSpaceURL = "http://myptt.masato25.com:8077/api/v1/get_car_list"
+    let getPendingParkingURL = "http://myptt.masato25.com:8077/api/v1/pending_parking_check"
     let manager = CLLocationManager() // track user location
     
     
-    
-    
+  
     
     // MARK: - Websocket Properties
     let socket = Socket(domainAndPort: "myptt.masato25.com:8077", path: "socket", transport: "websocket")
-
-
-  
+    let payParkingFeeURL = "http://myptt.masato25.com:8077/api/v1/pay_parking_at/"
+    
     
     
     // MARK: - View Functions
@@ -51,7 +52,7 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
         
         // MapView Delegate
         self.mapView.delegate = self
-        
+
         
         // Configure CLLocationManager
         self.manager.delegate = self
@@ -65,6 +66,7 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
         
         // Execute Functions
         self.loadParkingSpacePin(with: .available)
+        self.loadPendingParkingPin()
     }
     
     
@@ -111,12 +113,15 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
 
     }
     
+    @IBAction func refreshPin(_ sender: UIButton) {
+        self.refreshParkingSpacePin()
+    }
     
     
     // MARK: - CLLocationManager Delegate Functions
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation = locations[0]
-        let span = MKCoordinateSpanMake(0.0025, 0.0025)
+        let span = MKCoordinateSpanMake(0.005, 0.005)
         let region = MKCoordinateRegion(center: userLocation.coordinate, span: span)
         self.mapView.setRegion(region, animated: true)
         
@@ -136,42 +141,81 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
                 switch response.result {
                     
                 case .success(let value):
+                    print("Available Pin= \(value)")
                     
                     let responseJson = JSON(value)
-                    
-                    if responseJson["error"].string != nil {
-                        print("Loading parking space pin went wrong: \(responseJson["error"].stringValue)")
-                        
+                    if let error = responseJson["error"].string {
+                        print("Load \(status) parking space pin went wrong: \(error)")
                         return
+                        
                     } else {
                         let parkingSpaceArray = responseJson["data"].arrayValue
                         for (_, value) in parkingSpaceArray.enumerated() {
                             let id = value["id"].intValue
                             let name = value["name"].stringValue
+                            let custom_name = value["custom_name"].stringValue
                             let status = ParkingSpaceStatus(rawValue: value["parking_status"].stringValue)
                             let price_set = value["price_set"].stringValue
                             let coordinate = value["coordinate"].stringValue
                             
                             
-                            let latitude = Double(coordinate.components(separatedBy: ",")[0].replacingOccurrences(of: " ", with: ""))
-                            let longitude = Double(coordinate.components(separatedBy: ",")[1].replacingOccurrences(of: " ", with: ""))
+                            let latitude = Double(coordinate.components(separatedBy: ",")[1].replacingOccurrences(of: " ", with: ""))
+                            let longitude = Double(coordinate.components(separatedBy: ",")[0].replacingOccurrences(of: " ", with: ""))
                             
                             
-                            let parkingSpacePin = ParkingSpaceAnnotation(id: id, name: name, price_set: price_set, status: status!)
+                            let parkingSpacePin = ParkingSpaceAnnotation(id: id, name: name, custom_name: custom_name, price_set: price_set, status: status!)
                             parkingSpacePin.coordinate = CLLocationCoordinate2DMake(latitude!, longitude!)
                             
                             DispatchQueue.main.async {
-                                self.mapView.addAnnotation(parkingSpacePin)
+                                self.mapView.addAnnotation(withoutDuplicateCoordinate: parkingSpacePin)
                             }
                         }
                     }
                 case .failure(let error):
-                    print("Cannot load parking space pin: \(error)")
+                    print("Load \(status) parking space pin fail: \(error)")
                 }
             })
     }
     
+    private func loadPendingParkingPin() {
+        Alamofire.request(self.getPendingParkingURL).validate().responseJSON(completionHandler: { response in
+            
+            switch response.result {
+            case .success(let value):
+                print("Pending Pin= \(value)")
+                
+                let pendingPSpaceArray = JSON(value)["avatars"].arrayValue
+                for (_, value) in pendingPSpaceArray.enumerated() {
+                    let id = value["id"].intValue    // id and price_set isEmpty here
+                    let name = value["name"].stringValue
+                    let custom_name = value["custom_name"].stringValue
+                    let status = ParkingSpaceStatus(rawValue: value["parking_status"].stringValue)
+                    let price_set = value["price_set"].stringValue
+                    let coordinate = value["coordinate"].stringValue
+                    
+                    
+                    let latitude = Double(coordinate.components(separatedBy: ",")[1].replacingOccurrences(of: " ", with: ""))
+                    let longitude = Double(coordinate.components(separatedBy: ",")[0].replacingOccurrences(of: " ", with: ""))
+                    
+                    
+                    let parkingSpacePin = ParkingSpaceAnnotation(id: id, name: name, custom_name: custom_name, price_set: price_set, status: status!)
+                    parkingSpacePin.coordinate = CLLocationCoordinate2DMake(latitude!, longitude!)
+                    
+                    DispatchQueue.main.async {
+                        self.mapView.addAnnotation(withoutDuplicateCoordinate: parkingSpacePin)
+                    }
+                }
+            case .failure(let error):
+                print("Load pending pin fail: \(error)")
+            }
+        })
+    }
     
+    private func refreshParkingSpacePin() {
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        self.loadParkingSpacePin(with: .available)
+        self.loadPendingParkingPin()
+    }
     
     
     // MARK: - MapViewDelegate Functions
@@ -190,8 +234,6 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
         default:
             print("The selected pin is not a TaskPointAnnotation")
         }
-        
-        
     }
     
     
@@ -203,35 +245,76 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
     
     // MARK: - Websocket Functions
     private func listenToServerMessage() {
-        self.socket.join(topic: "customer:m1", message: Message(subject: "status", body: "joining")) { channel in
-            
+        // retrieve user data from storage(keychain)
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier ?? "")
+        let userID = keychain["userID"] ?? ""
+        
+        self.socket.join(topic: "customer:\(userID)", message: Message(subject: "status", body: "joining")) { channel in
             let channel = channel as! Channel
-            channel.on(event: "phx_reply", callback: { message in
             
-                guard let message  = message as? Message,
-                      let status   = message["status"],
-                      let response = message["response"] else {
-                            
-                    return
+            // Channel 1
+            channel.on(event: "phx_reply", callback: { message in
+                guard let message = message as? Message,
+                      let msg     = message.message else {
+                        
+                        return
                 }
-                let msg = JSON(response)["message"].stringValue
-    
-                print("----------- \(status) \(msg)")
+                let msgJson = JSON(msg)
                 
                 
-                // Alert - to pay parking fee
-                DispatchQueue.main.async {
-                    let payParkingFeeAlert = UIAlertController(title: "您已離開車位", message: "停車已結束，總金額為", preferredStyle: .alert)
-                    payParkingFeeAlert.addAction(UIAlertAction(title: "付款", style: .default, handler: { action in
+                if let resp = msgJson["response"]["price_pay_info"].dictionary {
+                    
+                    let price = resp["price"]?.intValue
+                    let paymentID = resp["id"]?.intValue
+                    
+                    // Alert - to pay parking fee
+                    DispatchQueue.main.async {
+                        print("=======presenting")
+                        let payParkingFeeAlert = UIAlertController(title: "您有未付清款項", message: "總金額為\(price!)人民幣", preferredStyle: .alert)
+                        payParkingFeeAlert.addAction(UIAlertAction(title: "好，付款", style: .default, handler: { action in
+                            
+                            self.payParkingFee(at: paymentID!)
+                            payParkingFeeAlert.dismiss(animated: true, completion: nil)
+                        }))
+                        self.present(payParkingFeeAlert, animated: true, completion: nil)
+                    }
+                }
+            })
+            
+            // Channel 2
+            channel.on(event: "payment_request", callback: { message in
+                guard let message = message as? Message,
+                      let msg     = message.message else {
                         
-                        SCLAlertView().showSuccess("付款成功", subTitle: "",closeButtonTitle: "OK", colorStyle: 0x000000, colorTextButton: 0xFFFFFF, animationStyle: .topToBottom)
-                        
-                    }))
-                    self.present(payParkingFeeAlert, animated: true, completion: nil)
+                        return
+                }
+                let msgJson = JSON(msg)
+                
+                
+                if let pay_info = msgJson["price_pay_info"].dictionary {
+                    
+                    let price = pay_info["price"]?.intValue
+                    let paymentID = pay_info["id"]?.intValue
+                    
+                    // Alert - to pay parking fee
+                    DispatchQueue.main.async {
+                        let payParkingFeeAlert = UIAlertController(title: "您已離開車位", message: "停車結束，總金額為\(price!)人民幣", preferredStyle: .alert)
+                        payParkingFeeAlert.addAction(UIAlertAction(title: "好，付款", style: .default, handler: { action in
+                            
+                            self.payParkingFee(at: paymentID!)
+                            payParkingFeeAlert.dismiss(animated: true, completion: nil)
+                        }))
+                        self.present(payParkingFeeAlert, animated: true, completion: nil)
+                    }
                 }
             })
         }
     }
+    
+    
+    
+
+    
     
     
     
@@ -252,9 +335,62 @@ class ParkingMapViewController: UIViewController, CLLocationManagerDelegate, MKM
         self.logoutBttn.layer.shadowOpacity = 0.3
         self.logoutBttn.layer.cornerRadius = 23
         
+        // RefreshPin Bttn
+        self.refreshPinBttn.layer.shadowOffset = CGSize(width: 3.3, height: 3.3)
+        self.refreshPinBttn.layer.shadowOpacity = 0.3
+        self.refreshPinBttn.layer.cornerRadius = 23
+        self.refreshPinBttn.imageEdgeInsets = UIEdgeInsetsMake(11,11,11,11)
+        
         // Container View
         self.parkingSpaceContainerView.layer.shadowOffset = CGSize(width: 1, height: 1)
         self.parkingSpaceContainerView.layer.shadowOpacity = 0.3
         self.parkingSpaceContainerView.layer.shadowRadius = 10
     }
+    
+    private func payParkingFee(at paymentID: Int) {
+        Alamofire.request("\(self.payParkingFeeURL)\(paymentID)").validate().responseJSON(completionHandler: { response in
+            
+            switch response.result {
+            case .success(let value):
+                print("Pay parking fee success: \(value)")
+                
+                DispatchQueue.main.async {
+                    let paySuccesAlert = SCLAlertView().showSuccess("付款成功", subTitle: "謝謝您的消費", closeButtonTitle: "OK", colorStyle: 0x3CB371, colorTextButton: 0xFFFFFF, animationStyle: .topToBottom)
+                    
+                    paySuccesAlert.setDismissBlock {
+                        self.refreshParkingSpacePin()
+                    }
+                }
+                
+                
+            case .failure(let error):
+                print("Pay parking fee fail: \(error)")
+            }
+        })
+    }
 }
+
+extension MKMapView {
+    
+    func addAnnotation(withoutDuplicateCoordinate pin: MKAnnotation) {
+        
+        if self.annotations.count == 0 {
+            self.addAnnotation(pin)
+        } else {
+            
+            if !self.annotations.contains(where: { element in
+                
+                let annotation = element as MKAnnotation
+                if annotation.coordinate.latitude == pin.coordinate.latitude &&
+                   annotation.coordinate.longitude == pin.coordinate.longitude {
+                    return true
+                } else {
+                    return false
+                }
+            }) {
+                self.addAnnotation(pin)
+            }
+        }
+    }
+}
+

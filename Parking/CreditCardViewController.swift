@@ -153,7 +153,7 @@ class CreditCardViewController: UIViewController, UITextFieldDelegate {
             
             switch response.result {
             case .success(let value):
-                print("session token is: \(value)")
+                print("register= \(value)")
                 
                 let responseJson = JSON(value)
                 
