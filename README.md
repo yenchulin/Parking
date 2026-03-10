@@ -9,6 +9,10 @@ Finding street parking is a constant headache. Inefficient traditional parking s
 
 Users can easily find available parking spaces on the map, navigate to them, and experience a completely "ticketless" automated checkout process when they drive away.
 
+<img src="https://github.com/yenchulin/Parking/raw/master/Parking_image.png">
+
+[Learn more about it >>](https://youtu.be/pLYiCAdAkPo?si=DMNv5vuFQGO4S4TM)
+
 ## Features
 * **Real-time Availability:** View available parking spots on an interactive map.
 * **Auto-Checkout:** Leveraged WebSockets to push real-time notifications to the user the moment they leave the parking spot.
